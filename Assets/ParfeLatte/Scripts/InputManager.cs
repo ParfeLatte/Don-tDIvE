@@ -24,6 +24,7 @@ public class InputManager : Singleton<InputManager>
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Space = true;
+            LongSpace = true;
             Debug.Log("True");
         }
         else if(Input.GetKey(KeyCode.Space))
