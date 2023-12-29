@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Border
   - Enemy
+  - LastHair
   layers:
   - Default
   - TransparentFX
