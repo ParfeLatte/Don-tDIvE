@@ -33,4 +33,10 @@ public class Flappy_Spawner : MonoBehaviour
             count++;
         }
     }
+
+    public void restart()
+    {
+        timer = 3.5f;
+        count = 0;
+    }
 }

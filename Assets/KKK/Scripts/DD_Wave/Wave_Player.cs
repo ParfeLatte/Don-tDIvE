@@ -7,15 +7,20 @@ public class Wave_Player : MonoBehaviour
 {
     public float speed;
     public float speed2;
-    public float time = 5f;
+    public float time = 15f;
     bool touchborder;
 
     public Rigidbody2D rigid;
 
-    public void OnEnable()
+    private Vector2 SpawnPos;
+
+    public Wave_BackGround wave_BackGround;
+    public Wave_BackGround wave_BackGround2;
+    public Wave_Wave wave_wave;
+
+    public void Awake()
     {
-        transform.position = new Vector2(0, -3);
-        time = 5f;
+        SpawnPos = transform.position;
     }
 
     void Update()
@@ -32,23 +37,25 @@ public class Wave_Player : MonoBehaviour
         {
             GameManager.instance.ClearGame();
         }
-
-        if ((Mathf.Abs(rigid.velocity.x) > 5) && (Mathf.Abs(rigid.velocity.x) < 5))
-        {
-            rigid.velocity = new Vector2(Mathf.Sign(rigid.velocity.x) * 5, rigid.velocity.y);
-        }
     }
 
     public void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.CompareTag("Enemy"))
         {
-            //GameManager.instance.GameOver();
+            transform.position = SpawnPos;
+            rigid.velocity = new Vector2(0f, 0f);
+            time = 15f;
+            wave_BackGround.restart();
+            wave_BackGround2.restart();
+            wave_wave.restart();
         }
         if (col.gameObject.CompareTag("Border"))
         {
             touchborder = true;
         }
+
+
     }
 
     public void OnTriggerExit2D(Collider2D collider)

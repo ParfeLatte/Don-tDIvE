@@ -8,9 +8,13 @@ public class Fall_Player : MonoBehaviour
 
     public Animator anim;
     public Rigidbody2D rigid;
+    public Fall_Platform fall_Platform;
+
+    private Vector2 SpawnPos;
 
     void Awake()
     {
+        SpawnPos = transform.position; 
         isJump = false;
     }
 
@@ -43,7 +47,11 @@ public class Fall_Player : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.CompareTag("Enemy"))
-            //GameManager.instance.GameOver();
+        {
+            transform.position = SpawnPos;
+            fall_Platform.restart();
+
+        }
         if (collider.gameObject.CompareTag("Goal"))
             GameManager.instance.ClearGame();
     }

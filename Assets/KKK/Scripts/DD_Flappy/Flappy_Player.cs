@@ -6,6 +6,16 @@ public class Flappy_Player : MonoBehaviour
 {
     public Rigidbody2D rigid;
     public Animator anim;
+    public Flappy_Spawner flappy_Spawner;
+
+    private Vector2 SpawnPos;
+
+    GameObject ForDestroy;
+
+    void Start()
+    {
+        SpawnPos = transform.position;
+    }
 
     void Update()
     {
@@ -23,12 +33,17 @@ public class Flappy_Player : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if ((collider.gameObject.CompareTag("Enemy")) && (collider.gameObject.CompareTag("Border")))
+        if ((collider.gameObject.CompareTag("Enemy")) || (collider.gameObject.CompareTag("Border")))
         {
-            //GameManager.instance.GameOver();
+            transform.position = SpawnPos;
+            flappy_Spawner.restart();
+            ForDestroy = GameObject.Find("Enemy(Clone)");
+            Destroy(ForDestroy);
         }
         if (collider.gameObject.CompareTag("Goal"))
         {
+
+
             GameManager.instance.ClearGame();
         }
     }
