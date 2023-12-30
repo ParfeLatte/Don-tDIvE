@@ -36,7 +36,7 @@ public class Water_Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Enemy"))
         {
             gameend = true;
-            GameManager.instance.GameOver();
+            //GameManager.instance.GameOver();
         }
         if (collision.gameObject.CompareTag("Goal"))
         {
