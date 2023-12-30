@@ -299,7 +299,15 @@ MonoBehaviour:
   gameList: []
   Life: 0
   point: 0
+  TargetPoint: 0
   isGame: 0
+  Ending: {fileID: 0}
+  EndSpr: {fileID: 0}
+  EndOne: {fileID: 0}
+  EndTwo: {fileID: 0}
+  EndThree: {fileID: 0}
+  Thanks: {fileID: 0}
+  isEnding: 0
 --- !u!4 &796849276
 Transform:
   m_ObjectHideFlags: 0

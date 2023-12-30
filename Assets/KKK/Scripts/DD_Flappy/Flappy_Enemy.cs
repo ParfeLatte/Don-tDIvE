@@ -1,10 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Flappy_Enemy : MonoBehaviour
 {
     float timer = 10f;
+
+    private void Start()
+    {
+        StartCoroutine(DestroySelf());
+    }
 
     void Update()
     {
@@ -14,5 +20,11 @@ public class Flappy_Enemy : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+    }
+
+    private IEnumerator DestroySelf()
+    {
+        yield return new WaitForSeconds(7f);
+        Destroy(gameObject);
     }
 }

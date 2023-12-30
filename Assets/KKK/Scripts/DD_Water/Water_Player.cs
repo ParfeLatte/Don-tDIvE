@@ -14,6 +14,8 @@ public class Water_Player : MonoBehaviour
 
     private Vector2 SpawnPos;
 
+    public GameObject Goal;
+
     public void Awake()
     {
         Instance = this;
@@ -45,10 +47,12 @@ public class Water_Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Goal"))
         {
             ispeal = true;
+            Goal.transform.position = SpawnPos;
         }
 
         if (collision.gameObject.CompareTag("Target"))
         {
+            gameend = true;
             GameManager.instance.ClearGame();
         }
     }

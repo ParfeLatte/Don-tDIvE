@@ -109,7 +109,6 @@ public class JumpFish : MonoBehaviour
         }
         else if (col.CompareTag("Sea"))
         {
-            //局聪皋捞记 贸府
             StartCoroutine(Clear());
         }
     }

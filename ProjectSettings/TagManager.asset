@@ -8,6 +8,10 @@ TagManager:
   - Enemy
   - Goal
   - Target
+  - LastHair
+  - Girl
+  - Fail
+  - Sea
   layers:
   - Default
   - TransparentFX

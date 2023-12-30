@@ -68,7 +68,7 @@ public class GameManager : Singleton<GameManager>
     {
         point = 0;
         pointtext.text = "x" + point.ToString();
-        TargetPoint = 30;
+        TargetPoint = 80;
     }
 
     //리스트에 모든 미니게임 삽입 및 게임 시작
@@ -129,23 +129,6 @@ public class GameManager : Singleton<GameManager>
         isGame = true;
     }
 
-    //public void CheckTimer()
-    //{
-    //    if (!isGame) return;
-    //    Timer += Time.deltaTime;
-    //    if(Timer >= OverTime)
-    //    {
-    //        GameOver();
-    //    }
-    //}
-
-    //public void GameOver()
-    //{
-    //    CurrentGame.SetActive(false);
-    //    isGame = false;
-    //    GameOverScene.SetActive(true);
-    //    Debug.Log("Fail");
-    //}
 
     //게임 클리어 조건을 달성할시 클리어 화면을 보여주고 다음 게임으로 진행
     public void ClearGame()

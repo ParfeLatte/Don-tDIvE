@@ -33,7 +33,7 @@ public class Wave_Player : MonoBehaviour
             rigid.AddForce(Vector2.right *speed , ForceMode2D.Impulse);
         }
 
-        if (time == 0f)
+        if (time <= 0f)
         {
             GameManager.instance.ClearGame();
         }

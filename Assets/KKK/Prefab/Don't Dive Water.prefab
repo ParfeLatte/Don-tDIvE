@@ -584,6 +584,7 @@ MonoBehaviour:
   rigid: {fileID: 8684036562701228191}
   gameend: 1
   anim: {fileID: 0}
+  Goal: {fileID: 1153115965156657714}
 --- !u!70 &5481433366405186791
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

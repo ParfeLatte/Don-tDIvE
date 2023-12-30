@@ -42,9 +42,8 @@ public class Flappy_Player : MonoBehaviour
         }
         if (collider.gameObject.CompareTag("Goal"))
         {
-
-
             GameManager.instance.ClearGame();
+            Destroy(collider.gameObject);
         }
     }
 }
