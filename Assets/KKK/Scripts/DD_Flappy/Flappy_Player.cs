@@ -25,7 +25,7 @@ public class Flappy_Player : MonoBehaviour
     {
         if ((collider.gameObject.CompareTag("Enemy")) && (collider.gameObject.CompareTag("Border")))
         {
-            GameManager.instance.GameOver();
+            //GameManager.instance.GameOver();
         }
         if (collider.gameObject.CompareTag("Goal"))
         {

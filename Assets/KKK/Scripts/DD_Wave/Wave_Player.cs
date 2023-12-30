@@ -43,7 +43,7 @@ public class Wave_Player : MonoBehaviour
     {
         if (col.gameObject.CompareTag("Enemy"))
         {
-            GameManager.instance.GameOver();
+            //GameManager.instance.GameOver();
         }
         if (col.gameObject.CompareTag("Border"))
         {

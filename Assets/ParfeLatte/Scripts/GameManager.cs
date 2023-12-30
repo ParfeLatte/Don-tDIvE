@@ -2,20 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : Singleton<GameManager>
 {
-    public float Timer;
-    public float OverTime;
-    public float GameSpeed;
-    public int GameLevel;
+    //public float Timer;
+    //public float OverTime;
+    //public float GameSpeed;
+    //public int GameLevel;
+    public GameObject PointUI;
+    public Text pointtext;
 
+    public GameObject GameScene;
     public GameObject ClearScene;
     public GameObject explainScene;
     public GameObject GameOverScene;
-    public GameObject CurrentGame;
-    public List<GameObject> CurgameList = new List<GameObject>();//게임에서 사용할 미니게임 리스트
-    public List<GameObject> AllGames = new List<GameObject>();//전체 게임 리스트
+    public GameZip CurrentGame;
+    public List<GameZip> gameList = new List<GameZip>();//게임에서 사용할 미니게임 리스트
+    //public List<GameObject> AllGames = new List<GameObject>();//전체 게임 리스트
     public int Life;
 
     public short point;
@@ -29,17 +33,18 @@ public class GameManager : Singleton<GameManager>
     // Start is called before the first frame update
     void Start()
     {
+        PointUI.SetActive(false);
         isGame = false;
-        OverTime = 10f;
+        //OverTime = 10f;
         GameReset();
-        SetGame();
+        //SetGame();
         SetNextGame();
     }
 
     // Update is called once per frame
     void Update()
     {
-        CheckTimer();
+        //CheckTimer();
         //if (isGame && Input.GetKeyDown(KeyCode.Space))
         //{
         //    ClearGame();
@@ -48,26 +53,28 @@ public class GameManager : Singleton<GameManager>
 
     public void GameReset()
     {
-        GameLevel = 0;
-        GameSpeed = 1f;
+        point = 0;
+        pointtext.text = "x" + point.ToString();
     }
 
     //리스트에 모든 미니게임 삽입 및 게임 시작
-    public void SetGame()
-    {
-        CurgameList.Clear();
-        for (int i = 0; i < AllGames.Count; i++)
-        {
-            CurgameList.Add(AllGames[i]);
-            AllGames[i].SetActive(false);
-        }
-    }
+    //public void SetGame()
+    //{
+    //    CurgameList.Clear();
+    //    for (int i = 0; i < AllGames.Count; i++)
+    //    {
+    //        CurgameList.Add(AllGames[i]);
+    //        AllGames[i].SetActive(false);
+    //    }
+    //}
 
     //게임 클리어시에 성공씬 보여주기 -> 게임 셋
     public IEnumerator ShowClearScene()
     {
         ClearScene.SetActive(true);
-        yield return new WaitForSeconds(1f);
+        PointUI.SetActive(true);
+        yield return new WaitForSeconds(1.5f);
+        PointUI.SetActive(false);
         ClearScene.SetActive(false);
         SetNextGame();
     }
@@ -76,10 +83,12 @@ public class GameManager : Singleton<GameManager>
     public void SetNextGame()
     {
         int num;
-        num = Random.Range(0, CurgameList.Count);
-        CurrentGame = CurgameList[num];
-        CurgameList.Remove(CurrentGame);
-        //CurrentGame.SetActive(true);
+        num = Random.Range(0, gameList.Count);
+        CurrentGame = gameList[num];
+        gameList.Remove(CurrentGame);
+        GameScene = CurrentGame.Game;
+        ClearScene = CurrentGame.ClearScene;
+        explainScene = CurrentGame.Explain;
         StartCoroutine(ShowExplainScene()); //게임 결정 했으니 설명
     }
 
@@ -94,56 +103,49 @@ public class GameManager : Singleton<GameManager>
    
     public void StartGame()
     {
-        Timer = 0f;
-        CurrentGame.SetActive(true);
+        //Timer = 0f;
+        GameScene.SetActive(true);
         isGame = true;
     }
 
-    public void CheckTimer()
-    {
-        if (!isGame) return;
-        Timer += Time.deltaTime;
-        if(Timer >= OverTime)
-        {
-            GameOver();
-        }
-    }
+    //public void CheckTimer()
+    //{
+    //    if (!isGame) return;
+    //    Timer += Time.deltaTime;
+    //    if(Timer >= OverTime)
+    //    {
+    //        GameOver();
+    //    }
+    //}
 
-    public void GameOver()
-    {
-        CurrentGame.SetActive(false);
-        isGame = false;
-        GameOverScene.SetActive(true);
-        Debug.Log("Fail");
-    }
+    //public void GameOver()
+    //{
+    //    CurrentGame.SetActive(false);
+    //    isGame = false;
+    //    GameOverScene.SetActive(true);
+    //    Debug.Log("Fail");
+    //}
 
     //게임 클리어 조건을 달성할시 클리어 화면을 보여주고 다음 게임으로 진행
     public void ClearGame()
     {
         Debug.Log("Clear!");
-        CurrentGame.SetActive(false);
+        GameScene.SetActive(false);
         isGame = false;
-        point += 5; 
-        if (point >= 87)
+        point += 10;
+        pointtext.text = "x" + point.ToString();
+        if (point >= 80)
         {
             //클리어엔딩
         }
         else
         {
-            if (CurgameList.Count == 0)
-            {
-                UpdateGameLevel();
-            }//게임 리스트가 비어있으면 모든 미니게임을 클리어 한 것 이므로 리스트 초기화 및 게임 선택
             StartCoroutine(ShowClearScene());//계속 진행
         }
     }
 
-    public void UpdateGameLevel()
-    {
-        GameLevel++; 
-        GameSpeed += 0.05f * GameLevel;
-        SetGame();
-    }
 }
 
 //미니 게임별로 설명 갱신해주어야함 -> UI 매니저
+
+//게임별

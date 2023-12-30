@@ -43,7 +43,7 @@ public class Fall_Player : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.gameObject.CompareTag("Enemy"))
-            GameManager.instance.GameOver();
+            //GameManager.instance.GameOver();
         if (collider.gameObject.CompareTag("Goal"))
             GameManager.instance.ClearGame();
     }
