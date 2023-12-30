@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Runtime.Serialization.Formatters;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -23,7 +26,18 @@ public class GameManager : Singleton<GameManager>
     public int Life;
 
     public short point;
+    public short TargetPoint;
     public bool isGame;
+
+    [Header("Ending")]
+    public GameObject Ending;
+    public SpriteRenderer EndSpr;
+    public Sprite EndOne;
+    public Sprite EndTwo;
+    public Sprite EndThree;
+    public GameObject Thanks;
+
+    public bool isEnding;
 
     protected void Awake()
     {
@@ -44,17 +58,17 @@ public class GameManager : Singleton<GameManager>
     // Update is called once per frame
     void Update()
     {
-        //CheckTimer();
-        //if (isGame && Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    ClearGame();
-        //}
+        if (isEnding && InputManager.instance.Space)
+        {
+            SceneManager.LoadSceneAsync("Lobby");
+        }
     }
 
     public void GameReset()
     {
         point = 0;
         pointtext.text = "x" + point.ToString();
+        TargetPoint = 30;
     }
 
     //리스트에 모든 미니게임 삽입 및 게임 시작
@@ -76,7 +90,14 @@ public class GameManager : Singleton<GameManager>
         yield return new WaitForSeconds(1.5f);
         PointUI.SetActive(false);
         ClearScene.SetActive(false);
-        SetNextGame();
+        if (point >= TargetPoint)
+        {
+            StartCoroutine(ShowEnding());
+        }
+        else
+        {
+            SetNextGame();
+        }
     }
     
     //미니게임결정, 다음 게임 실행
@@ -134,14 +155,21 @@ public class GameManager : Singleton<GameManager>
         isGame = false;
         point += 10;
         pointtext.text = "x" + point.ToString();
-        if (point >= 80)
-        {
-            //클리어엔딩
-        }
-        else
-        {
-            StartCoroutine(ShowClearScene());//계속 진행
-        }
+        StartCoroutine(ShowClearScene());
+    }
+
+    public IEnumerator ShowEnding()
+    {
+        Ending.SetActive(true);
+        EndSpr.sprite = EndOne;
+        yield return new WaitForSeconds(2f);
+        EndSpr.sprite = EndTwo;
+        yield return new WaitForSeconds(2f);
+        EndSpr.sprite = EndThree;
+        yield return new WaitForSeconds(2f);
+        Ending.SetActive(false);
+        Thanks.SetActive(true);
+        isEnding = true;
     }
 
 }
