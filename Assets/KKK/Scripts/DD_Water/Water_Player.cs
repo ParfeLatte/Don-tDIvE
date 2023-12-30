@@ -7,13 +7,16 @@ public class Water_Player : MonoBehaviour
 {
     public static Water_Player Instance;
     public Rigidbody2D rigid;
+    public bool ispeal = false;
     public bool gameend = false;
 
     public Animator anim;
+    private Vector2 SpawnPos;
 
     public void Awake()
     {
         Instance = this;
+        SpawnPos = transform.position;
         anim = GetComponent<Animator>();
     }
 
@@ -21,6 +24,7 @@ public class Water_Player : MonoBehaviour
     {
         transform.position = new Vector2(0, 4);
         gameend = false;
+        ispeal = false;
     }
     public void Update()
     {
@@ -33,14 +37,19 @@ public class Water_Player : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            gameend = true;
-            GameManager.instance.GameOver();
-        }
         if (collision.gameObject.CompareTag("Goal"))
         {
-            gameend= true;
+            ispeal = true;
+        }
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            transform.position = SpawnPos;
+        }
+        if (collision.gameObject.CompareTag("Target"))
+        {
+            if (ispeal == false)  
+                return;
+            gameend = true;
             GameManager.instance.ClearGame();
         }
     }

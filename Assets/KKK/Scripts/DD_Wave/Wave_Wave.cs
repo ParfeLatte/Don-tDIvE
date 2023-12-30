@@ -7,12 +7,14 @@ public class Wave_Wave : MonoBehaviour
     public float wavepoint;
     float position;
 
+    private Vector2 SpawnPos;
+
     public float waveduration = 1f;
     public float nextduration = 1f;
 
-    void OnEnable()
+    void Start()
     {
-        transform.position = new Vector2(-5, -1);
+        SpawnPos = transform.position;
     }
 
     void Update()
@@ -24,5 +26,10 @@ public class Wave_Wave : MonoBehaviour
                 position = Random.Range(-wavepoint, wavepoint);
                 waveduration = nextduration;
             }
+    }
+
+    public void restart()
+    {
+        transform.position = SpawnPos;
     }
 }

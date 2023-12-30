@@ -84,7 +84,7 @@ public class GameManager : Singleton<GameManager>
     }
 
     //게임 설명 보여주고 게임으로 넘어감
-    public IEnumerator ShowExplainScene() 
+    public IEnumerator ShowExplainScene(
     {
         explainScene.SetActive(true);//설명 2초간 보여주고 넘어감
         yield return new WaitForSeconds(2f);
