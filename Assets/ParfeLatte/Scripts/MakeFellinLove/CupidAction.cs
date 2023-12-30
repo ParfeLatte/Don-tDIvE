@@ -9,11 +9,15 @@ using UnityEngine.UIElements;
 public class CupidAction : MonoBehaviour
 {
     public GameObject Arrow;
+    public Transform Bow;
+    public GameObject BowDir;
+    public Animator bowAnim;
     [SerializeField] private float Deg;
     [SerializeField] private float Speed;
     private float Dir;
+    private Vector2 DirVec;
+    [SerializeField] private float ArrowPower;
     
-
     [SerializeField] private bool isAim;
     [SerializeField] private bool canTry;
     // Start is called before the first frame update
@@ -21,9 +25,13 @@ public class CupidAction : MonoBehaviour
     {
         Deg = 0f;
         Dir = 1f;
-        Speed = 5f;
+        Speed = 40f;
+        ArrowPower = 13f;
         isAim = false;
         canTry = true;
+        BowDir.SetActive(false); 
+        bowAnim.SetBool("isShoot", false);
+        Bow.rotation = Quaternion.Euler(0, 0, Deg - 16f);
     }
 
     // Update is called once per frame
@@ -45,7 +53,8 @@ public class CupidAction : MonoBehaviour
        if(!isAim && InputManager.instance.Space)
        {
             isAim = true;
-       }
+            BowDir.SetActive(true);
+        }
     }
 
     private void ControlDegree()
@@ -54,6 +63,7 @@ public class CupidAction : MonoBehaviour
         {
             DirCheck();
             Deg += Speed * Dir * Time.deltaTime;
+            CheckDegree();
         }
         else if (!InputManager.instance.LongSpace && canTry)
         {
@@ -61,21 +71,36 @@ public class CupidAction : MonoBehaviour
         }
     }
 
-    private void Shoot()
+    private void CheckDegree()
     {
         float rad = Deg * Mathf.Deg2Rad;
         float x = Mathf.Cos(rad);
         float y = Mathf.Sin(rad);
-        Vector2 DirVec = new Vector2(x, y).normalized;
-        GameObject arrow = Instantiate(Arrow, transform.position, transform.rotation);
-        arrow.GetComponent<Rigidbody2D>().velocity = DirVec * 13f;
+        DirVec = new Vector2(x, y).normalized;
+        Bow.rotation = Quaternion.Euler(0, 0, Deg-16f);
+    }
+
+    private void Shoot()
+    {
+        GameObject arrow = Instantiate(Arrow, transform.position, Quaternion.Euler(0, 0, Deg));
+        arrow.GetComponent<Rigidbody2D>().velocity = DirVec * ArrowPower;
         isAim = false;
         canTry = false;
+        BowDir.SetActive(false);
+        bowAnim.SetBool("isShoot", true);
+        StartCoroutine(Reload());
+    }
+
+    private IEnumerator Reload()
+    {
+        yield return new WaitForSeconds(1.5f);
+        canTry = true;
+        bowAnim.SetBool("isShoot", false);
     }
 
     private void DirCheck()
     {
-        if(Dir == 1f && Deg >= 50)
+        if(Dir == 1f && Deg >= 60)
         {
             Dir = -1f;
         }

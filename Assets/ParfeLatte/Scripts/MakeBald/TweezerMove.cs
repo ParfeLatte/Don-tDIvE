@@ -100,21 +100,28 @@ public class TweezerMove : MonoBehaviour
         }
     }
 
-    private IEnumerator SuccessToPullOutLastHair()
-    {
-        yield return new WaitForSeconds(0.5f);
-        GameManager.instance.ClearGame();
-    }
+    //private IEnumerator SuccessToPullOutLastHair()
+    //{
+    //    yield return new WaitForSeconds(1f);
+    //    GameManager.instance.ClearGame();
+    //}
 
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.CompareTag("LastHair"))
         {
-            anim.SetTrigger("Catch");
+            anim.SetBool("isCatch", true);
+            col.GetComponentInParent<hair>().DestroySelf();
             col.transform.SetParent(transform);
             col.transform.localPosition = new Vector2(0.1f, 0);
             yDir = 1f;
-            StartCoroutine(SuccessToPullOutLastHair());
+            StartCoroutine(ChangeAnimation());
         }
+    }
+
+    private IEnumerator ChangeAnimation()
+    {
+        yield return new WaitForSeconds(0.5f);
+        anim.SetBool("isCatch", false);
     }
 }

@@ -30,7 +30,7 @@ public class GameManager : Singleton<GameManager>
     void Start()
     {
         isGame = false;
-        OverTime = 5f;
+        OverTime = 10f;
         GameReset();
         SetGame();
         SetNextGame();
@@ -40,10 +40,10 @@ public class GameManager : Singleton<GameManager>
     void Update()
     {
         CheckTimer();
-        if (isGame && Input.GetKeyDown(KeyCode.Space))
-        {
-            ClearGame();
-        }
+        //if (isGame && Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    ClearGame();
+        //}
     }
 
     public void GameReset()
@@ -123,7 +123,7 @@ public class GameManager : Singleton<GameManager>
         Debug.Log("Clear!");
         CurrentGame.SetActive(false);
         isGame = false;
-        point += 5;
+        point += 5; 
         if (point >= 87)
         {
             //클리어엔딩
