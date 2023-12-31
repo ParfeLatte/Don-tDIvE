@@ -45,7 +45,7 @@ public class Wave_Player : MonoBehaviour
         {
             transform.position = SpawnPos;
             rigid.velocity = new Vector2(0f, 0f);
-            time = 15f;
+            time = 5f;
             wave_BackGround.restart();
             wave_BackGround2.restart();
             wave_wave.restart();

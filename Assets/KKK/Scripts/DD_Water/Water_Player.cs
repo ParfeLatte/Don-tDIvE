@@ -9,8 +9,6 @@ public class Water_Player : MonoBehaviour
     public Rigidbody2D rigid;
     public bool gameend = false;
     bool ispeal;
-    int count;
-
     public Animator anim;
 
     private Vector2 SpawnPos;
@@ -47,13 +45,13 @@ public class Water_Player : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Goal"))
         {
-            if (count == 0)
+            if (!ispeal)
             {
                 ispeal = true;
                 Goal.transform.position = SpawnPos;
                 SpawnPos = new Vector2(transform.position.x, transform.position.y -1f);
             }
-            if (count == 1)
+            else if (ispeal && !gameend)
             {
                 gameend = true;
                 GameManager.instance.ClearGame();
